@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 
 // material-ui
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Card from "@material-ui/core/Card";
 
 // for redux
 import {Store} from 'Store'
@@ -10,19 +9,16 @@ import {connect} from 'react-redux'
 import {assignWorkingErd} from "Store/ErdData";
 
 // functions
-import {GetErdForce, SaveErd} from 'Functions/Erd'
+import {SaveErd} from 'Functions/Erd'
 
 function ModalItemSaveButton(props)
 {
     const [text, setText] = useState('저장중.')
-
-    const {onWorkingErd} = props
-    const {onSetFunction} = props
     const {onClose} = props
 
     useEffect(async () => {
-        if(Store.getState().ErdData.erdId == -1) {
-            setText('선택된 ERD가 존재하지 않습니다.');
+        if(Store.getState().ErdData.erdId === -1) {
+            setText('선택된 ERD 가 존재하지 않습니다.');
             setTimeout(() => {
                 onClose();
             }, 1000);
@@ -33,6 +29,7 @@ function ModalItemSaveButton(props)
                 {
                     setText('저장되었습니다.');
                     setTimeout(() => {
+                        /*
                         let _commitId;
                         let _erdData;
                         let getErdForcePromise = GetErdForce(Store.getState().ErdData.erdId)
@@ -48,7 +45,7 @@ function ModalItemSaveButton(props)
                                 onWorkingErd(payload)
                                 onSetFunction(_erdData)
                                 onClose()
-                            })
+                            })*/
                     }, 1000);
                 }
             })
