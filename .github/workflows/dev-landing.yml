@@ -1,0 +1,24 @@
+name: Dev Landing
+
+on:
+  push:
+    branches: [ "dev-landing" ]
+
+  workflow_dispatch:
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Copy to S3 bucket
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp \
+              --recursive \
+              --region ap-northeast-2 \
+              build s3://landing.dev.autosql.co.kr
