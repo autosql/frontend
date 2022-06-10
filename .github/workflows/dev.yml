@@ -31,11 +31,16 @@ jobs:
           cp -f vuerd.js ./node_modules/vuerd/dist/vuerd.js
           cp -f vscode-dark.css ./node_modules/vuerd/theme/vscode-dark.css
       
-      - name: Build
+      - name: Make env 
         env: 
           REACT_APP_SERVER: ${{ secrets.REACT_APP_SERVER }}
           REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
-        run: npm run build
+        run: |
+          echo "REACT_APP_SERVER=$REACT_APP_SERVER" >> .env
+          echo "REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID" >> .env
+
+      - name: Build
+        run: yarn build
       
       - name: Deploy
         env: 
