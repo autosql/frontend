@@ -1,0 +1,61 @@
+name: Dev Erd
+
+on:
+  push:
+    branches: [ "dev" ]
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Node Module Cache
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+            
+      - name: Install Dependencies
+        run: yarn install
+        
+      - name: Move Application files
+        run: |
+          cp -f vuerd.js ./node_modules/vuerd/dist/vuerd.js
+          cp -f vscode-dark.css ./node_modules/vuerd/theme/vscode-dark.css
+      
+      - name: Configuration dot env file
+        env: 
+          REACT_APP_SERVER: ${{ secrets.REACT_APP_SERVER }}
+          REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
+        run: |
+          echo "REACT_APP_SERVER=$REACT_APP_SERVER" >> .env
+          echo "REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID" >> .env
+          echo "PUBLIC_URL=/erd" >> .env
+
+      - name: Build
+        run: yarn build
+        env:
+          CI: false
+          
+      - name: Prepare Deployment
+        run: mv ./build/static ./build/erd/static
+      
+      - name: Deploy
+        env: 
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp build s3://erd.dev.autosql.co.kr \
+            --recursive \
+            --region ap-northeast-2 \
+            --metadata-directive REPLACE \
+            --cache-control max-age=0 \
+            --content-type "text/html"
