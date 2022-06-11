@@ -85,7 +85,7 @@ export default function Landing({props, history})
                         <CardMedia
                             className={classes.media}
                             image="images/auto_sql_logo_v2.png"
-                            title="AutoSQL"
+                            title="AUTOSQL"
                         />
                         <CardContent className={classes.center}>
                             <Typography variant="h6" display="block" gutterBottom
