@@ -31,19 +31,22 @@ jobs:
           cp -f vuerd.js ./node_modules/vuerd/dist/vuerd.js
           cp -f vscode-dark.css ./node_modules/vuerd/theme/vscode-dark.css
       
-      - name: Make env 
+      - name: Configuration dot env file
         env: 
           REACT_APP_SERVER: ${{ secrets.REACT_APP_SERVER }}
           REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
         run: |
           echo "REACT_APP_SERVER=$REACT_APP_SERVER" >> .env
           echo "REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID" >> .env
-          echo "PUBLIC_URL=https://dev.autosql.co.kr/erd/" >> .env
+          echo "PUBLIC_URL=/erd" >> .env
 
       - name: Build
         run: yarn build
         env:
           CI: false
+          
+      - name: Prepare Deployment
+        run: mv ./build/static ./build/erd/static
       
       - name: Deploy
         env: 
