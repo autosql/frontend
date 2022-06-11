@@ -38,6 +38,7 @@ jobs:
         run: |
           echo "REACT_APP_SERVER=$REACT_APP_SERVER" >> .env
           echo "REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID" >> .env
+          echo "PUBLIC_URL=https://dev.autosql.co.kr/erd/" >> .env
 
       - name: Build
         run: yarn build
