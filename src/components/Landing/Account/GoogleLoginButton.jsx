@@ -92,7 +92,7 @@ export default function GoogleLoginButton({onLogin, isLogin})
                 backgroundColor: '#FFFFFF'
             }}
         >
-            <Avatar src="/images/google_icon.png" />
+            <Avatar src="/erd/images/google_icon.png" />
         </Button>
     );
 }

@@ -2,9 +2,9 @@ import React from 'react'
 
 // 3rd-party
 import {
-    BrowserRouter,
     Route,
     Switch,
+    BrowserRouter,
 } from 'react-router-dom';
 
 // components
