@@ -33,10 +33,10 @@ jobs:
       
       - name: Configuration dot env file
         env: 
-          REACT_APP_SERVER: ${{ secrets.REACT_APP_SERVER }}
           REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
         run: |
-          echo "REACT_APP_SERVER=$REACT_APP_SERVER" >> .env
+          API_SERVER=`aws ssm get-parameter --name "/autosql/dev/backend/address" | jq ".Parameter.Value" | tr -d '"'`
+          echo "REACT_APP_SERVER=https://$API_SERVER/" >> .env
           echo "REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID" >> .env
           echo "PUBLIC_URL=/erd" >> .env
 
