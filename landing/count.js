@@ -4,7 +4,7 @@ window.onload = async () => {
 // /landing/erd
 // /landing/share
 
-let api_server = "localhost"
+let api_server = "https://api.dev.autosql.co.kr"
 
 let user = await fetch(api_server + "landing/user")
   .then(response => response.json())
