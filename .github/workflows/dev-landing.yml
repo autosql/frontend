@@ -22,9 +22,9 @@ jobs:
 
       - name: Copy to S3 bucket
         run: |
-          bucket_name=`aws ssm get-parameter --name "/autosql/dev/frontend/landing" | jq ".Parameter.Value" | tr -d '"'`
+          BUCKET_NAME=`aws ssm get-parameter --name "/autosql/dev/frontend/landing" | jq ".Parameter.Value" | tr -d '"'`
           echo $bucket_name
-          aws s3 cp landing/ s3://$bucket_name \
+          aws s3 cp landing/ s3://$BUCKET_NAME \
               --recursive \
               --region ap-northeast-2 \
               
