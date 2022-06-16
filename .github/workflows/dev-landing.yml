@@ -18,7 +18,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp landing/ s3://landing.dev.autosql.co.kr \
+          BUCKET_NAME=`aws ssm get-parameter --name "/autosql/dev/frontend/erd" | jq ".Parameter.Value" | tr -d '"'`
+          aws s3 cp landing/ s3://$BUCKET_NAME \
               --recursive \
               --region ap-northeast-2 \
               
